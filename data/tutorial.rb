@@ -8,6 +8,5 @@ Bio::FlatFile.auto(ARGF) do |ff|
         ent.seq.composition.each do |key, val|
             puts "#{key} : #{val}"
         end
-        #disp ent
     end
 end
