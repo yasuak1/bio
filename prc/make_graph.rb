@@ -17,8 +17,10 @@ Bio::FlatFile.auto(ARGF) do |ff|
         amino_weight = Hash.new(0)
         lseq = ent.seq.length
         ent.seq.composition.each do |key, val|
+            #amino_weight[key] = -Math.log(val.to_f / lseq, 2)
             amino_weight[key] = val.to_f / lseq
         end
+        #p amino_weight
 
         # plot data
         INF = (1 << 21)
