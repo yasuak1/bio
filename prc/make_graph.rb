@@ -14,14 +14,27 @@ Bio::FlatFile.auto(ARGF) do |ff|
         end
 
         # define amino weight
+        cnt_amino = Hash.new(0)
         amino_weight = Hash.new(0)
+        lseq = 0
+        File.open("../data/composition.dat", mode = "rt") do |f|
+            f.each_line do |line|
+                amino, cnt = line.split
+                cnt_amino[amino] = cnt
+                lseq += cnt.to_i
+            end
+        end
+        cnt_amino.each do |key, val|
+            amino_weight[key] = val.to_f / lseq
+        end
+=begin
         lseq = ent.seq.length
         ent.seq.composition.each do |key, val|
             #amino_weight[key] = -Math.log(val.to_f / lseq, 2)
             amino_weight[key] = val.to_f / lseq
         end
         #p amino_weight
-
+=end
         # plot data
         INF = (1 << 21)
         x_range = [INF, -INF]
