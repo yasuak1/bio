@@ -25,7 +25,7 @@ Bio::FlatFile.auto(ARGF) do |ff|
             end
         end
         cnt_amino.each do |key, val|
-            amino_weight[key] = val.to_f / lseq
+            amino_weight[key] = - Math.log( val.to_f / lseq )
         end
 =begin
         lseq = ent.seq.length
