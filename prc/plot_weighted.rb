@@ -25,15 +25,22 @@ Bio::FlatFile.auto(ARGF) do |ff|
             end
         end
         cnt_amino.each do |key, val|
-            amino_weight[key] = - Math.log( val.to_f / lseq )
+            amino_weight[key] = - Math.log(val.to_f / lseq, 10)
         end
 
-        # plot data and disp
+        # plot data 
+        points = Array.new
+        points << [0, 0]
         latest_point = [0, 0]
         ent.seq.chars.each do |amino|
             latest_point[0] += amino_weight[amino] * dpoints[amino][0]
             latest_point[1] += amino_weight[amino] * dpoints[amino][1]
-            puts "#{latest_point[0]} #{latest_point[1]}"
+            points << latest_point.dup
+        end
+
+        # disp
+        points.each do |point|
+            puts "#{point[0]} #{point[1]}"
         end
     end
 end

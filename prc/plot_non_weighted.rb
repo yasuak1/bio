@@ -13,12 +13,18 @@ Bio::FlatFile.auto(ARGF) do |ff|
             arg += darg
         end
 
-        # plot data and disp
+        # plot data
+        points = Array.new
         latest_point = [0, 0]
         ent.seq.chars.each do |amino|
             latest_point[0] += dpoints[amino][0]
             latest_point[1] += dpoints[amino][1]
-            puts "#{latest_point[0]} #{latest_point[1]}"
+            points << latest_point.dup
+        end
+
+        # disp
+        points.each do |point|
+            puts "#{point[0]} #{point[1]}"
         end
     end
 end
