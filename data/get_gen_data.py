@@ -19,13 +19,14 @@ def main():
     for line in file.readlines():
         fig = plt.figure()
         ax = fig.add_subplot(111, xlabel='x', ylabel='y')
-        if cnt == 100: break
+        if cnt == 6000: break
         family, arry = line.split()
         #print(arry)
         x_point, y_points = calc_points(arry, dpoints)
-        #plt.plot(x_point, y_points)
+        plt.plot(x_point, y_points)
         filename = str(cnt) + "-" + family
-        #plt.savefig(filename)
+        plt.savefig(filename)
+        plt.close()
         dict[filename] = family
         cnt += 1
     with open("train.pkl", "wb") as tf:
