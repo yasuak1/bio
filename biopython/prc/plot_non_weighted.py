@@ -1,16 +1,17 @@
 import sys, os
 from jsonschema import draft201909_format_checker
 from matplotlib.cbook import delete_masked_points
-from sympy import re
+from sympy import diophantine, re
 
 from yaml import load
 sys.path.append(os.pardir)
 from Bio import SeqIO
 import math
 import copy
-from part02.tutorial_biopython import load_data, composition
+from biopython.part02.tutorial_biopython import load_data, composition
 
-def calc_dpoints(seq):
+def calc_dpoints():
+    seq = "ABCDEFGHIKLMNPQRSTUVWXYZ"
     dpoints = {}
     arg = 0
     darg = 360 / len(set(seq))
@@ -23,13 +24,16 @@ def calc_dpoints(seq):
 
 def calc_points(seq, dpoint):
     points = []
-    points.append([0, 0])
-    latest_point = [0, 0]
+    x_points = []
+    y_points = []
+    point = [0, 0]
     for amino in seq:
-        latest_point[0] += dpoint[amino][0]
-        latest_point[1] += dpoint[amino][1]
-        points.append(copy.copy(latest_point))
-    return points
+        if amino in dpoint.keys():
+            point[0] += dpoint[amino][0]
+            point[1] += dpoint[amino][1]
+            x_points.append(copy.copy(point[0]))
+            y_points.append(copy.copy(point[1]))
+    return x_points, y_points
 
 
 def main():
