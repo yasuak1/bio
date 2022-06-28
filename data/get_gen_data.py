@@ -21,7 +21,7 @@ def main():
     for line in file.readlines():
         fig = plt.figure()
         ax = fig.add_subplot(111, xlabel='x', ylabel='y')
-        if cnt == 6000: break
+        if cnt == 500: break
         family, arry = line.split()
         #print(arry)
         x_point, y_points = calc_points(arry, dpoints)
