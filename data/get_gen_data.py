@@ -1,10 +1,10 @@
-from functools import cache
+#from functools import cache
 from gettext import dpgettext
 import sys, os
 import matplotlib.pylab as plt
 import pickle
 from numpy import flip
-from regex import F
+#from regex import F
 from rsa import PublicKey
 from yaml import load
 sys.path.append(os.pardir)
@@ -14,14 +14,15 @@ from biopython.prc.plot_non_weighted import calc_dpoints, calc_points
 def main():
     dict = {}
     dpoints = calc_dpoints()
-    path = '/home/yasu/data/COG-100-2892/dataset0/'
-    file = open(path + 'train.txt')
+    #path = '/home/yasu/data/COG-100-2892/dataset0/'
+    path = '/home/mizuno/data/COG-100-2892/dataset0/'
+    #file = open(path + 'train.txt')
     file = open(path + 'test.txt')
     cnt = 0
     for line in file.readlines():
         fig = plt.figure()
         ax = fig.add_subplot(111, xlabel='x', ylabel='y')
-        if cnt == 6000: break
+        if cnt == 1000: break
         family, arry = line.split()
         #print(arry)
         x_point, y_points = calc_points(arry, dpoints)

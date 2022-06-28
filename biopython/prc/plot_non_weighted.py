@@ -1,5 +1,5 @@
 import sys, os
-from jsonschema import draft201909_format_checker
+#from jsonschema import draft201909_format_checker
 from matplotlib.cbook import delete_masked_points
 from sympy import diophantine, re
 
