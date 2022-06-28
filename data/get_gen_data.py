@@ -14,7 +14,9 @@ from biopython.prc.plot_non_weighted import calc_dpoints, calc_points
 def main():
     dict = {}
     dpoints = calc_dpoints()
-    file = open('/home/yasu/data/COG-100-2892/dataset0/train.txt')
+    path = '/home/yasu/data/COG-100-2892/dataset0/'
+    file = open(path + 'train.txt')
+    file = open(path + 'test.txt')
     cnt = 0
     for line in file.readlines():
         fig = plt.figure()
@@ -29,9 +31,11 @@ def main():
         plt.close()
         dict[filename] = family
         cnt += 1
-    with open("train.pkl", "wb") as tf:
+    #with open("train.pkl", "wb") as tf:
+    with open("test.pkl", "wb") as tf:
         pickle.dump(dict, tf)
-    print(dict)
+    #print(dict)
+
 
 if __name__ == '__main__':
     main()
