@@ -16,12 +16,12 @@ def main():
     for line in file.readlines():
         fig = plt.figure()
         ax = fig.add_subplot(111, xlabel='x', ylabel='y')
-        if cnt == 10: break
+        if cnt == 100: break
         family, arry = line.split()
         #print(arry)
         x_point, y_points = calc_points(arry, dpoints)
         plt.plot(x_point, y_points)
-        plt.savefig(family + "-" + str(cnt))
+        plt.savefig(str(cnt) + "-" + family)
         cnt += 1
 
 if __name__ == '__main__':
