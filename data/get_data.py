@@ -6,6 +6,7 @@ import matplotlib.pylab as plt
 import pickle
 import numpy as np
 import cv2
+import pandas as pd
 from PIL import Image
 #from regex import F
 from rsa import PublicKey
@@ -46,24 +47,34 @@ def main(train_data=True):
     else :path = '/home/mizuno/data/amino_data/COG-100-2892/dataset0/test.txt'
     file = open_file(path)
 
-    # PRODUCE IMAGES 
+    # PRODUCE IMAGES
+    max_cnt = 0
+    if train_data: max_cnt = 20000
+    else: max_cnt = 10000
     cnt = 0
+    input_size = 640 * 480
     dpoints = calc_dpoints()
     dict = {}
     img_data = np.empty(0)
     label = np.empty(0)
     for line in file.readlines():
-        if cnt == 1: break
+        if max_cnt == cnt: break
         family, img = make_img(cnt, line, dpoints)
         img_data = np.append(img_data, img)
         label = np.append(label, family)
         cnt += 1
+    img_data = img_data.reshape(cnt, input_size)
     dict['img_data'] = img_data
     dict['label'] = label
     file.close()
 
-    if train_data: np.save('/home/mizuno/data/neural_data/train', dict)
-    else: np.save('/home/mizuno/data/neural_data/test', dict)
+    #if train_data: np.savez_compressed('/home/mizuno/data/neural_data/train', dict)
+    #else: np.savez_compressed('/home/mizuno/data/neural_data/test', dict)
+    save_path = ''
+    if train_data: save_path = '/home/mizuno/data/neural_data/train.pkl'
+    else: save_path = '/home/mizuno/data/neural_data/test.pkl'
+    pd.to_pickle(dict, save_path, compression='zip', protocol=4)
+
 
 if __name__ == '__main__':
     # OPEN FILE
