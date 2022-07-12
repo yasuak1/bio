@@ -27,14 +27,16 @@ def fig2img(fig):
     img = Image.open(buf)
     return img
 
-def make_img(cnt, line, dpoints):
+def make_img(line, dpoints, name):
     family, array = line.split()
     family = int(family)
     x_points, y_points = calc_points(array, dpoints)
-    fig = plt.figure()
+
+    fig = plt.figure(figsize=(0.6, 0.6))
     plt.axis("off")
-    plt.plot(x_points, y_points)
+    plt.plot(x_points, y_points, lw=0.5)
     #plt.show()
+    fig.savefig(name)
     img = cv2.cvtColor(np.array(fig2img(fig)), cv2.COLOR_BGR2GRAY) / 255
     plt.close()
     return family, img
@@ -45,25 +47,28 @@ def main(train_data=True):
     path = ''
     if train_data: path = '/home/mizuno/data/amino_data/COG-100-2892/dataset0/train.txt'
     else :path = '/home/mizuno/data/amino_data/COG-100-2892/dataset0/test.txt'
+    if train_data: name = "train_img"
+    else: name = "test_img"
     file = open_file(path)
 
     # PRODUCE IMAGES
     max_cnt = 0
-    if train_data: max_cnt = 20000
-    else: max_cnt = 10000
+    if train_data: max_cnt = 1
+    else: max_cnt = 1
     cnt = 0
-    input_size = 640 * 480
+    input_size = 60 * 60
     dpoints = calc_dpoints()
     dict = {}
     img_data = np.empty(0)
     label = np.empty(0)
     for line in file.readlines():
         if max_cnt == cnt: break
-        family, img = make_img(cnt, line, dpoints)
+        if cnt % 100 == 0: print(cnt)
+        family, img = make_img(line, dpoints, name)
         img_data = np.append(img_data, img)
         label = np.append(label, family)
         cnt += 1
-    img_data = img_data.reshape(cnt, input_size)
+    img_data = img_data.reshape(max_cnt, input_size)
     dict['img_data'] = img_data
     dict['label'] = label
     file.close()
@@ -71,10 +76,10 @@ def main(train_data=True):
     #if train_data: np.savez_compressed('/home/mizuno/data/neural_data/train', dict)
     #else: np.savez_compressed('/home/mizuno/data/neural_data/test', dict)
     save_path = ''
-    if train_data: save_path = '/home/mizuno/data/neural_data/train.pkl'
-    else: save_path = '/home/mizuno/data/neural_data/test.pkl'
+    if train_data: save_path = '/home/mizuno/data/neural_data/size_train.pkl'
+    else: save_path = '/home/mizuno/data/neural_data/size_test.pkl'
     pd.to_pickle(dict, save_path, compression='zip', protocol=4)
-
+    #pd.to_pickle(dict, save_path, protocol=4)
 
 if __name__ == '__main__':
     # OPEN FILE
