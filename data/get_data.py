@@ -51,8 +51,8 @@ def main(train_data=True):
 
     # PRODUCE IMAGES
     max_cnt = 0
-    if train_data: max_cnt = 3
-    else: max_cnt = 3
+    if train_data: max_cnt = 20
+    else: max_cnt = 20
     cnt = 0
     input_size = 60 * 60
     dpoints = calc_dpoints()
