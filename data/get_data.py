@@ -47,14 +47,12 @@ def main(train_data=True):
     path = ''
     if train_data: path = '/home/mizuno/data/amino_data/COG-100-2892/dataset0/train.txt'
     else :path = '/home/mizuno/data/amino_data/COG-100-2892/dataset0/test.txt'
-    if train_data: name = "train_img"
-    else: name = "test_img"
     file = open_file(path)
 
     # PRODUCE IMAGES
     max_cnt = 0
-    if train_data: max_cnt = 1
-    else: max_cnt = 1
+    if train_data: max_cnt = 3
+    else: max_cnt = 3
     cnt = 0
     input_size = 60 * 60
     dpoints = calc_dpoints()
@@ -64,6 +62,8 @@ def main(train_data=True):
     for line in file.readlines():
         if max_cnt == cnt: break
         if cnt % 100 == 0: print(cnt)
+        if train_data: name = "train_img_" + str(cnt)
+        else: name = "test_img_" + str(cnt)
         family, img = make_img(line, dpoints, name)
         img_data = np.append(img_data, img)
         label = np.append(label, family)
