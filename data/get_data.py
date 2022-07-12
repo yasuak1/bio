@@ -62,8 +62,8 @@ def main(train_data=True):
     for line in file.readlines():
         if max_cnt == cnt: break
         if cnt % 100 == 0: print(cnt)
-        if train_data: name = "train_img_" + str(cnt)
-        else: name = "test_img_" + str(cnt)
+        if train_data: name = "ABC_train_img_" + str(cnt)
+        else: name = "ABC_test_img_" + str(cnt)
         family, img = make_img(line, dpoints, name)
         img_data = np.append(img_data, img)
         label = np.append(label, family)
